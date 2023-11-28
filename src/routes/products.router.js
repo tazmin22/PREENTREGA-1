@@ -15,20 +15,10 @@ router
 })
 .get ("/:pid" , async (req, res) => {
     const {pid} = req.params
-    const productos = await productManager.getProductsById(pid)
-    res.send({productos});
-    
-})
-
-
-    
-
-
-
-
-.get ("/:pid" , async (req, res) => {
-    const {pid} = req.params
-    const productos = await productManager.getProductsById(pid)
+    const productos = await productManager.getProductsById(parseInt(pid))
+    if (!productos){
+        return res.status(400).send({error: 'Se produjo un error al recuperar productos.'})
+    }
     res.send({productos});
     
 })
