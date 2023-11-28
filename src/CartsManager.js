@@ -30,7 +30,7 @@ class CartsManagerFile{
     }
 
     createCart = async () => {
-        const carts = this.readFile()
+        const carts = await this.readFile()
         let newCart
         if(carts.length === 0){
             newCart = {id: 1, products: []}       
@@ -44,31 +44,47 @@ class CartsManagerFile{
 
     }
     addProductToCart = async (cid, pid) => {
-        const carts = await this.readFile()
-        const cartIndex = carts.findIndex(cart => cart.id === cid)
+        const carts = await this.readFile();
+        const cartIndex = carts.findIndex((cart) => cart.id === cid);
+
         if (cartIndex === -1) {
-            return 'no se encuentra el carrito'
+            return 'No se encuentra el carrito';
         }
-        carts[cartIndex].products = {productId: pid}
-        const results = await fs.promises.writeFile(this.path, JSON.stringify(carts, null, 2), 'utf-8')
-        return results
-    }
+
+        // Buscar el producto en el carrito
+        const productIndex = carts[cartIndex].products.findIndex((product) => product.productId === pid);
+
+        if (productIndex !== -1) {
+            // Si el producto ya existe, incrementar la cantidad en 1
+            carts[cartIndex].products[productIndex].quantity += 1;
+        } else {
+            // Si el producto no existe, agregarlo con cantidad 1
+            carts[cartIndex].products.push({ productId: pid, quantity: 1 });
+        }
+
+        const results = await fs.promises.writeFile(this.path, JSON.stringify(carts, null, 2), 'utf-8');
+        return results;
+    };
     
 }
 
+
+const carritomanager = new CartsManagerFile('./carrito.json');
+carritomanager.createCart();
+carritomanager.createCart();
+carritomanager.createCart();
+carritomanager.createCart();
+carritomanager.createCart();
+carritomanager.createCart();
+carritomanager.addProductToCart()
+carritomanager.addProductToCart()
+carritomanager.addProductToCart()
+carritomanager.addProductToCart()
+carritomanager.addProductToCart()
 
 
 module.exports = CartsManagerFile
 
-async function cosasAsincronicas(){
-    const cartsManager = new CartsManagerFile("Carrito.json");
-const newCart = await cartsManager.createCart();
-await cartsManager.addProductToCart(2, 1);
-console.log(newCart);
-     
-  
-    
-}
-return cosasAsincronicas(); 
+
 
 

@@ -1,6 +1,7 @@
 const express = require('express')
 const {PManager} = require ("./ProductManager")
 const productsRouter = require ("./routes/products.router.js")
+const cartsRouter = require ("./routes/carts.router.js")
 
 const app = express()
 const port = 8080
@@ -9,40 +10,13 @@ const port = 8080
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/products', productsRouter )
-app.use('/api/carts',()  => {})
-
-app.listen(port, () => {
-  console.log(`se supone que funca`)
+app.use('/api/products/', productsRouter)
+app.use('/api/carts/', cartsRouter)
+app.use(( err, req, res, next)=>{
+  console.error(err.stack)
+  res.status(500).send('Error de server')
 })
 
-
-// const productManager = new PManager ("./prueba.json")
-
-// app.get("/products", async (req, res) => {
-//   let devolver = req.query;
-//   let products = await productManager.getProducts();
-//   const limit = parseInt(req.query.limit, 10);
-
-//   if (limit > 0) {
-//     products = products.slice(0, limit);
-//   }
-
-//   res.send({ products });
-// });
-
- 
-// app.get("/products/:id", async (req, res) => {
-//   try {
-//     const id = req.params.id;
-//     const productos = await productManager.getProductsById(id);
-//     res.send({ productos });
-//   } catch (e) {
-//     console.error('Error al recuperar productos:', e);
-//     res.send({ error: 'Se produjo un error al recuperar productos.' });
-//   }
-// });
-
-//   app.listen(port, () => {
-//     console.log(`Example app listening on port ${port}`)
-//   })
+app.listen(port, () => {
+  console.log(`Server funciona en port ${port}`);
+});
