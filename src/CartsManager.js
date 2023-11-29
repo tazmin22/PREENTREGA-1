@@ -51,14 +51,14 @@ class CartsManagerFile{
             return 'No se encuentra el carrito';
         }
 
-        // Buscar el producto en el carrito
+       
         const productIndex = carts[cartIndex].products.findIndex((product) => product.productId === pid);
 
         if (productIndex !== -1) {
-            // Si el producto ya existe, incrementar la cantidad en 1
+            
             carts[cartIndex].products[productIndex].quantity += 1;
         } else {
-            // Si el producto no existe, agregarlo con cantidad 1
+            
             carts[cartIndex].products.push({ productId: pid, quantity: 1 });
         }
 
@@ -69,18 +69,18 @@ class CartsManagerFile{
 }
 
 
-const carritomanager = new CartsManagerFile('./carrito.json');
-carritomanager.createCart();
-carritomanager.createCart();
-carritomanager.createCart();
-carritomanager.createCart();
-carritomanager.createCart();
-carritomanager.createCart();
-carritomanager.addProductToCart()
-carritomanager.addProductToCart()
-carritomanager.addProductToCart()
-carritomanager.addProductToCart()
-carritomanager.addProductToCart()
+// const carritomanager = new CartsManagerFile('./carrito.json');
+// carritomanager.createCart();
+// carritomanager.createCart();
+// carritomanager.createCart();
+// carritomanager.createCart();
+// carritomanager.createCart();
+// carritomanager.createCart();
+// carritomanager.addProductToCart()
+// carritomanager.addProductToCart()
+// carritomanager.addProductToCart()
+// carritomanager.addProductToCart()
+// carritomanager.addProductToCart()
 
 
 module.exports = CartsManagerFile
